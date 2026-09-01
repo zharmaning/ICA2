@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JUMP Tractor Alexa App Dashboard</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>            
+
+    <style>
+        table {  width: 100% }
+        th, td { width: 50% }
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Tractors</h1>
+
+    <p><a href='form.html?action=insert'>Add New Tractor</a></p>
+
+    <div id="tractors">
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            fetch('/tractor/', { method: 'GET' })
+                .then((response) => {
+                    return new Promise((resolve) => response.json()
+                        .then((json) => resolve({
+                            status: response.status,
+                            json,
+                        })
+                    ));
+                })
+                .then(({status, json}) => {
+                    console.log(status, json);
+                    if (200 === status) {
+                        const tractorTable = document.getElementById('tractors');
+                        if (json.data.length > 0) {
+                            let table = `<table>
+                                            <thead>
+                                                <tr>
+                                                    <th width='50%'>Name</th>
+                                                    <th width='50%'>Actions</th>
+                                                </tr>
+                                            </thead>
+                                        <tbody>`;
+                            for (row of json.data) {
+                                table += `<tr>
+                                            <td>${row.tractor_name}</td>
+                                            <td><a href='form.html?id=${row.id}&action=edit'>Edit</a></td>
+                                         </tr>`;
+                            }
+                            table += `</tbody></table>`;
+                            tractorTable.innerHTML = table;
+                        }   
+
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>
