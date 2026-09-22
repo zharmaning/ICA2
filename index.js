@@ -101,7 +101,7 @@ app.listen(port);
 
 app.use(express.json());
 
-app.post("/api/sensor", (req, res) => {
+app.post("/ica2-6", (req, res) => {
 
     console.log(req.body);
 
