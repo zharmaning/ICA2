@@ -111,6 +111,7 @@ app.post("/api/sensor", (req, res) => {
 
 });
 
+//Donovan is blaming jack - Donovan :))
 app.listen(8080, () => {
     console.log("Server running on port 8080");
 });
